@@ -1,14 +1,12 @@
 package clients;
 
-import java.util.UUID;
-
 public class Client {
     private String hash;
     private String name;
     private String email;
 
-    public Client(String name, String email) {
-        this.hash = UUID.randomUUID().toString();
+    public Client(String hash, String name, String email) {
+        this.hash = hash;
         this.name = name;
         this.email = email;
     }

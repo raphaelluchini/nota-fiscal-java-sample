@@ -28,12 +28,13 @@ public class ClientController {
             return id;
         }, new JsonTransformer());
 
-        post("/users", (req, res) -> clientService.createClient(
-                req.queryParams("name"),
-                req.queryParams("email")
-        ), new JsonTransformer());
+        post("/clients", (req, res) -> {
+            clientService.createClient( req.queryParams("name"), req.queryParams("email"));
+            res.status(200);
+            return null;
+        }, new JsonTransformer());
 
-        put("/users/:id", (req, res) -> clientService.updateClient(
+        put("/clients/:id", (req, res) -> clientService.updateClient(
                 req.params(":id"),
                 req.queryParams("name"),
                 req.queryParams("email")
