@@ -1,61 +1,63 @@
-package clients;
+package products;
 
+import clients.Client;
 import database.MySQLAdapter;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
-
 import java.util.List;
 
-public class ClientModel{
+public class ProductModel {
 
-    public List<Client> getAllClients(){
+    public List<Product> getAllProducts(){
         Sql2o mysql = MySQLAdapter.connectDB();
-        String sql = "SELECT id, name, email FROM costumers";
+        String sql = "SELECT * FROM products";
         try(Connection con = mysql.open()) {
-            return con.createQuery(sql).executeAndFetch(Client.class);
+            return con.createQuery(sql).executeAndFetch(Product.class);
         }
     }
 
-    public Client getClient(Integer id){
+    public Product getProduct(Integer id){
         Sql2o mysql = MySQLAdapter.connectDB();
-        String sql = "SELECT id, name, email FROM costumers WHERE id= :id";
+        String sql = "SELECT * FROM products WHERE id= :id";
+
         try(Connection con = mysql.open()) {
             return con.createQuery(sql)
                 .addParameter("id", id)
-                .executeAndFetchFirst(Client.class);
+                .executeAndFetchFirst(Product.class);
         }
     }
 
-    public void createClient(String name, String email){
+    public void createProduct(String name, Integer price){
         Sql2o mysql = MySQLAdapter.connectDB();
-        String sql = "INSERT INTO costumers(name, email) VALUES (:name, :email)";
+        String sql = "INSERT INTO products(name, price) VALUES (:name,:price)";
+
         try(Connection con = mysql.open()) {
             con.createQuery(sql)
                     .addParameter("name", name)
-                    .addParameter("email", email)
+                    .addParameter("price", price)
                     .executeUpdate();
         }
     }
 
-    public void updateClient(Integer id, String name, String email){
+    public List<Product> getProductsByOrderId(Integer id){
         Sql2o mysql = MySQLAdapter.connectDB();
-        String sql = "UPDATE costumers SET name= :name, email= :email WHERE id=:id";
+        String sql = "SELECT * FROM order_products WHERE order_id= :id";
+
+        try(Connection con = mysql.open()) {
+            return con.createQuery(sql)
+                    .addParameter("id", id)
+                    .executeAndFetch(Product.class);
+        }
+    }
+
+    public void deleteProduct(Integer id){
+        Sql2o mysql = MySQLAdapter.connectDB();
+        String sql = "DELETE FROM products WHERE id=:id";
         try(Connection con = mysql.open()) {
             con.createQuery(sql)
                     .addParameter("id", id)
-                    .addParameter("name", name)
-                    .addParameter("email", email)
                     .executeUpdate();
         }
     }
 
-    public void deleteClient(Integer id){
-        Sql2o mysql = MySQLAdapter.connectDB();
-        String sql = "DELETE FROM costumers WHERE id=:id";
-        try(Connection con = mysql.open()) {
-            con.createQuery(sql)
-                    .addParameter("id", id)
-                    .executeUpdate();
-        }
-    }
 }

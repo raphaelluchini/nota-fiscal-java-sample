@@ -7,15 +7,15 @@ import static spark.Spark.*;
 
 public class ClientController {
 
-    public ClientController(final ClientService clientService) {
+    public ClientController(final ClientModel clientModel) {
         after((req, res) -> {
             res.type("application/json");
         });
 
-        get("/clients", (req, res) -> clientService.getAllClients(), new JsonTransformer());
+        get("/clients", (req, res) -> clientModel.getAllClients(), new JsonTransformer());
         get("/clients/:id", (req, res) -> {
             String id = req.params(":id");
-            Client client = clientService.getClient(id);
+            Client client = clientModel.getClient(Integer.parseInt(id));
             if (client != null) {
                 return client;
             }
@@ -23,22 +23,27 @@ public class ClientController {
             return new ResponseError("No client with id '%s' found", id);
         }, new JsonTransformer());
 
-        put("/clients/:id", (req, res) -> {
-            String id = req.params(":id");
-            return id;
-        }, new JsonTransformer());
 
         post("/clients", (req, res) -> {
-            clientService.createClient( req.queryParams("name"), req.queryParams("email"));
+            clientModel.createClient(req.queryParams("name"), req.queryParams("email"));
             res.status(200);
             return null;
         }, new JsonTransformer());
 
-        put("/clients/:id", (req, res) -> clientService.updateClient(
-                req.params(":id"),
+        put("/clients/:id", (req, res) -> {
+            clientModel.updateClient(
+                Integer.parseInt(req.params(":id")),
                 req.queryParams("name"),
-                req.queryParams("email")
-        ), new JsonTransformer());
+                req.queryParams("email"));
+            res.status(200);
+            return null;
+        }, new JsonTransformer());
+
+        delete("/clients/:id", (req, res) -> {
+            clientModel.deleteClient(Integer.parseInt(req.params(":id")));
+            res.status(200);
+            return null;
+        }, new JsonTransformer());
 
         exception(IllegalArgumentException.class, (e, req, res) -> {
             res.status(400);
