@@ -7,6 +7,8 @@ import products.Product;
 import products.ProductModel;
 import transformers.JsonTransformer;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,9 +44,21 @@ public class OrderController {
         }, new JsonTransformer());
 
         post("/orders", (req, res) -> {
-//            orderModel.createOrder(UUID.randomUUID().toString());
+            Map map = new JsonTransformer().toJson(req.body());
+            ArrayList<Integer> products = new ArrayList<Integer>();
+            //TODO: Use real values
+
+//            for(Integer productId : (ArrayList<Integer>) map.get("products")){
+//            }
+            products.add(2);
+
+            Long orderId = orderModel.createOrder(Integer.parseInt(map.get("costumerId").toString()));
+
+            for(Integer productId : products){
+                productModel.addProductToOrder(orderId, productId, 2, 1000);
+            }
             res.status(200);
-            return null;
+            return new ResponseError(map.get("products").toString());
         }, new JsonTransformer());
 
 

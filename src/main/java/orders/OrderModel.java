@@ -35,14 +35,14 @@ public class OrderModel {
         }
     }
 
-    public void createOrder( List<Product> products, Client client, Date date){
+    public Long createOrder(Integer costumerId){
         Sql2o mysql = MySQLAdapter.connectDB();
-        String sql = "INSERT INTO orders(name, email) VALUES (:name, :email)";
+        String sql = "INSERT INTO orders(costumer_id) VALUES (:costumerId)";
         try(Connection con = mysql.open()) {
-            con.createQuery(sql)
-                    .addParameter("name", "")
-                    .addParameter("email", date)
-                    .executeUpdate();
+            return (Long) con.createQuery(sql)
+                    .addParameter("costumerId", costumerId)
+                    .executeUpdate()
+                    .getKey();
         }
     }
 

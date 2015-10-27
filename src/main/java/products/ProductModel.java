@@ -1,6 +1,5 @@
 package products;
 
-import clients.Client;
 import database.MySQLAdapter;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
@@ -34,6 +33,20 @@ public class ProductModel {
         try(Connection con = mysql.open()) {
             con.createQuery(sql)
                     .addParameter("name", name)
+                    .addParameter("price", price)
+                    .executeUpdate();
+        }
+    }
+
+    public void addProductToOrder(Long orderId, Integer productId, Integer quantity, Integer price){
+        Sql2o mysql = MySQLAdapter.connectDB();
+        String sql = "INSERT INTO order_products(order_id, product_id, quantity, price) VALUES (:orderId,:productId,:quantity,:price)";
+
+        try(Connection con = mysql.open()) {
+            con.createQuery(sql)
+                    .addParameter("orderId", orderId)
+                    .addParameter("productId", productId)
+                    .addParameter("quantity", quantity)
                     .addParameter("price", price)
                     .executeUpdate();
         }
