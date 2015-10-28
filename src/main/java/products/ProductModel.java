@@ -26,12 +26,27 @@ public class ProductModel {
         }
     }
 
-    public void createProduct(String name, Integer price, Integer stock){
+    public Long createProduct(String name, Integer price, Integer stock){
         Sql2o mysql = MySQLAdapter.connectDB();
         String sql = "INSERT INTO products(name, price, stock) VALUES (:name,:price,:stock)";
 
         try(Connection con = mysql.open()) {
+            return (Long) con.createQuery(sql)
+                    .addParameter("name", name)
+                    .addParameter("price", price)
+                    .addParameter("stock", stock)
+                    .executeUpdate()
+                    .getKey();
+        }
+    }
+
+    public void updateProduct(Integer id, String name, Integer price, Integer stock){
+        Sql2o mysql = MySQLAdapter.connectDB();
+        String sql = "UPDATE products SET name=:name, price=:price, stock=:stock WHERE id=:id";
+
+        try(Connection con = mysql.open()) {
             con.createQuery(sql)
+                    .addParameter("id", id)
                     .addParameter("name", name)
                     .addParameter("price", price)
                     .addParameter("stock", stock)
@@ -66,9 +81,14 @@ public class ProductModel {
 
     public void deleteProduct(Integer id){
         Sql2o mysql = MySQLAdapter.connectDB();
-        String sql = "DELETE FROM products WHERE id=:id";
+        String sql = "DELETE FROM order_products WHERE product_id=:id";
+        String sql2 = "DELETE FROM products WHERE id=:id";
         try(Connection con = mysql.open()) {
             con.createQuery(sql)
+                    .addParameter("id", id)
+                    .executeUpdate();
+
+            con.createQuery(sql2)
                     .addParameter("id", id)
                     .executeUpdate();
         }

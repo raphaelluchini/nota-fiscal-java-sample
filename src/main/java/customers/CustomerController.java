@@ -8,10 +8,6 @@ import static spark.Spark.*;
 public class CustomerController {
 
     public CustomerController(final CustomerModel clientModel) {
-        after((req, res) -> {
-            res.type("application/json");
-        });
-
         get("/customers", (req, res) -> clientModel.getAllCustomers(), new JsonTransformer());
         get("/customers/:id", (req, res) -> {
             String id = req.params(":id");
@@ -30,16 +26,16 @@ public class CustomerController {
             return null;
         }, new JsonTransformer());
 
-        put("/customers/:id", (req, res) -> {
+        post("/customers/:id/update", (req, res) -> {
             clientModel.updateCustomer(
-                Integer.parseInt(req.params(":id")),
-                req.queryParams("name"),
-                req.queryParams("email"));
+                    Integer.parseInt(req.params(":id")),
+                    req.queryParams("name"),
+                    req.queryParams("email"));
             res.status(200);
             return null;
         }, new JsonTransformer());
 
-        delete("/customers/:id", (req, res) -> {
+        post("/customers/:id/delete", (req, res) -> {
             clientModel.deleteCustomer(Integer.parseInt(req.params(":id")));
             res.status(200);
             return null;

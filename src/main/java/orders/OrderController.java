@@ -19,10 +19,6 @@ import static spark.Spark.*;
 public class OrderController {
 
     public OrderController(final OrderModel orderModel, final ProductModel productModel, final CustomerModel customerModel) {
-        after((req, res) -> {
-            res.type("application/json");
-        });
-
         get("/orders", (req, res) -> orderModel.getAllOrders(), new JsonTransformer());
 
         get("/orders/:id", (req, res) -> {

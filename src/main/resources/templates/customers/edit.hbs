@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema Supermercado</title>
+</head>
+<body>
+    <h1>Produtos</h1>
+
+    <form method="POST" action="/products/{{data.id}}/edit">
+        <label for="name">Nome:</label>
+        <input type="text" id="name" name="name" value="{{data.name}}">
+        <br>
+        <label for="name">Preço:</label>
+        <input type="text" id="price" name="price" value="{{data.price}}">
+        <br>
+        <label for="name">Estoque:</label>
+        <input type="text" id="stock" name="stock" value="{{data.stock}}">
+        <br>
+        <input type="submit" value="Enviar">
+    </form>
+    {{#if fs}}
+        <div class="success">Produto editado com sucesso</div>
+    {{/if}}
+
+</body>
+</html>

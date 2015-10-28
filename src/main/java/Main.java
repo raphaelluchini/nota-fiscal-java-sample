@@ -4,7 +4,10 @@ import orders.OrderController;
 import orders.OrderModel;
 import products.ProductController;
 import products.ProductModel;
+import spark.ModelAndView;
+import spark.template.handlebars.HandlebarsTemplateEngine;
 
+import static spark.Spark.*;
 
 public class Main {
 
@@ -12,6 +15,8 @@ public class Main {
         new CustomerController(new CustomerModel());
         new OrderController(new OrderModel(), new ProductModel(), new CustomerModel());
         new ProductController(new ProductModel());
+
+        get("/", (req, res) -> new ModelAndView(null, "index.hbs"), new HandlebarsTemplateEngine());
     }
 }
 

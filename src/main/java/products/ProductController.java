@@ -1,45 +1,67 @@
 package products;
 
 import error.ResponseError;
+import spark.ModelAndView;
+import spark.template.handlebars.HandlebarsTemplateEngine;
 import transformers.JsonTransformer;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static spark.Spark.*;
 
 public class ProductController {
 
     public ProductController(final ProductModel productModel) {
-        after((req, res) -> {
-            res.type("application/json");
-        });
 
-        get("/products", (req, res) -> productModel.getAllProducts(), new JsonTransformer());
+        get("/products", (req, res) ->  {
+            Map map = new HashMap();
+            map.put("data", productModel.getAllProducts());
+            map.put("delete", req.queryParams("delete"));
+            map.put("create", req.queryParams("create"));
+            return new ModelAndView(map, "products/index.hbs");
+        }, new HandlebarsTemplateEngine());
+
+        get("/products/new", (req, res) ->  {
+            return new ModelAndView(null, "products/new.hbs");
+        }, new HandlebarsTemplateEngine());
+
+        post("/products", (req, res) -> {
+            productModel.createProduct(req.queryParams("name"), Integer.parseInt(req.queryParams("price")), Integer.parseInt(req.queryParams("stock")));
+            res.redirect("/products?create=true");
+            return null;
+        });
 
         get("/products/:id", (req, res) -> {
             String id = req.params(":id");
             Product product = productModel.getProduct(Integer.parseInt(id));
+            Map map = new HashMap();
+            map.put("fs", req.queryParams("fs"));
             if(product != null){
-                return product;
+                map.put("data", product);
             }
-            res.status(400);
-            return new ResponseError("No client with id %s' found", id);
-        }, new JsonTransformer());
+            return new ModelAndView(map, "products/edit.hbs");
+        }, new HandlebarsTemplateEngine());
 
-        post("/products", (req, res) -> {
-            productModel.createProduct(req.queryParams("name"), Integer.parseInt(req.queryParams("price")), Integer.parseInt(req.queryParams("stock")));
-            res.status(200);
-            return new ResponseError("Product '%s' has been created",  req.queryParams("name"));
-        }, new JsonTransformer());
+        post("/products/:id/edit", (req, res) -> {
+            productModel.updateProduct(
+                    Integer.parseInt(req.params(":id")),
+                    req.queryParams("name"),
+                    Integer.parseInt(req.queryParams("price")),
+                    Integer.parseInt(req.queryParams("stock")));
 
+            res.redirect("/products/" + req.params(":id") + "?fs=true");
+            return null;
+        });
 
-        delete("/products/:id", (req, res) -> {
+        get("/products/:id/delete", (req, res) -> {
             productModel.deleteProduct(Integer.parseInt(req.params(":id")));
-            res.status(200);
-            return new ResponseError("Product id: '%s' has been deleted", req.params(":id"));
-        }, new JsonTransformer());
+            res.redirect("/products?delete=true");
+            return null;
+        });
 
         exception(IllegalArgumentException.class, (e, req, res) -> {
-            res.status(400);
-            res.body(new JsonTransformer().render(new ResponseError(e)));
+            res.body(new HandlebarsTemplateEngine().render(new ModelAndView(null, "400.hbs")));
         });
     }
 }
