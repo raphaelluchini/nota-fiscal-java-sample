@@ -1,4 +1,4 @@
-package clients;
+package customers;
 
 import database.MySQLAdapter;
 import org.sql2o.Connection;
@@ -6,29 +6,29 @@ import org.sql2o.Sql2o;
 
 import java.util.List;
 
-public class ClientModel{
+public class CustomerModel {
 
-    public List<Client> getAllClients(){
+    public List<Customer> getAllCustomers(){
         Sql2o mysql = MySQLAdapter.connectDB();
-        String sql = "SELECT id, name, email FROM costumers";
+        String sql = "SELECT id, name, email FROM customers";
         try(Connection con = mysql.open()) {
-            return con.createQuery(sql).executeAndFetch(Client.class);
+            return con.createQuery(sql).executeAndFetch(Customer.class);
         }
     }
 
-    public Client getClient(Integer id){
+    public Customer getCustomer(Integer id){
         Sql2o mysql = MySQLAdapter.connectDB();
-        String sql = "SELECT id, name, email FROM costumers WHERE id= :id";
+        String sql = "SELECT id, name, email FROM customers WHERE id= :id";
         try(Connection con = mysql.open()) {
             return con.createQuery(sql)
                 .addParameter("id", id)
-                .executeAndFetchFirst(Client.class);
+                .executeAndFetchFirst(Customer.class);
         }
     }
 
-    public void createClient(String name, String email){
+    public void createCustomer(String name, String email){
         Sql2o mysql = MySQLAdapter.connectDB();
-        String sql = "INSERT INTO costumers(name, email) VALUES (:name, :email)";
+        String sql = "INSERT INTO customers(name, email) VALUES (:name, :email)";
         try(Connection con = mysql.open()) {
             con.createQuery(sql)
                     .addParameter("name", name)
@@ -37,9 +37,9 @@ public class ClientModel{
         }
     }
 
-    public void updateClient(Integer id, String name, String email){
+    public void updateCustomer(Integer id, String name, String email){
         Sql2o mysql = MySQLAdapter.connectDB();
-        String sql = "UPDATE costumers SET name= :name, email= :email WHERE id=:id";
+        String sql = "UPDATE customers SET name= :name, email= :email WHERE id=:id";
         try(Connection con = mysql.open()) {
             con.createQuery(sql)
                     .addParameter("id", id)
@@ -49,9 +49,9 @@ public class ClientModel{
         }
     }
 
-    public void deleteClient(Integer id){
+    public void deleteCustomer(Integer id){
         Sql2o mysql = MySQLAdapter.connectDB();
-        String sql = "DELETE FROM costumers WHERE id=:id";
+        String sql = "DELETE FROM customers WHERE id=:id";
         try(Connection con = mysql.open()) {
             con.createQuery(sql)
                     .addParameter("id", id)

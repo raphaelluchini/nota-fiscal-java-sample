@@ -1,21 +1,21 @@
-package clients;
+package customers;
 
 import error.ResponseError;
 import transformers.JsonTransformer;
 
 import static spark.Spark.*;
 
-public class ClientController {
+public class CustomerController {
 
-    public ClientController(final ClientModel clientModel) {
+    public CustomerController(final CustomerModel clientModel) {
         after((req, res) -> {
             res.type("application/json");
         });
 
-        get("/clients", (req, res) -> clientModel.getAllClients(), new JsonTransformer());
-        get("/clients/:id", (req, res) -> {
+        get("/customers", (req, res) -> clientModel.getAllCustomers(), new JsonTransformer());
+        get("/customers/:id", (req, res) -> {
             String id = req.params(":id");
-            Client client = clientModel.getClient(Integer.parseInt(id));
+            Customer client = clientModel.getCustomer(Integer.parseInt(id));
             if (client != null) {
                 return client;
             }
@@ -24,14 +24,14 @@ public class ClientController {
         }, new JsonTransformer());
 
 
-        post("/clients", (req, res) -> {
-            clientModel.createClient(req.queryParams("name"), req.queryParams("email"));
+        post("/customers", (req, res) -> {
+            clientModel.createCustomer(req.queryParams("name"), req.queryParams("email"));
             res.status(200);
             return null;
         }, new JsonTransformer());
 
-        put("/clients/:id", (req, res) -> {
-            clientModel.updateClient(
+        put("/customers/:id", (req, res) -> {
+            clientModel.updateCustomer(
                 Integer.parseInt(req.params(":id")),
                 req.queryParams("name"),
                 req.queryParams("email"));
@@ -39,8 +39,8 @@ public class ClientController {
             return null;
         }, new JsonTransformer());
 
-        delete("/clients/:id", (req, res) -> {
-            clientModel.deleteClient(Integer.parseInt(req.params(":id")));
+        delete("/customers/:id", (req, res) -> {
+            clientModel.deleteCustomer(Integer.parseInt(req.params(":id")));
             res.status(200);
             return null;
         }, new JsonTransformer());

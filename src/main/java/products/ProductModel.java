@@ -26,14 +26,15 @@ public class ProductModel {
         }
     }
 
-    public void createProduct(String name, Integer price){
+    public void createProduct(String name, Integer price, Integer stock){
         Sql2o mysql = MySQLAdapter.connectDB();
-        String sql = "INSERT INTO products(name, price) VALUES (:name,:price)";
+        String sql = "INSERT INTO products(name, price, stock) VALUES (:name,:price,:stock)";
 
         try(Connection con = mysql.open()) {
             con.createQuery(sql)
                     .addParameter("name", name)
                     .addParameter("price", price)
+                    .addParameter("stock", stock)
                     .executeUpdate();
         }
     }

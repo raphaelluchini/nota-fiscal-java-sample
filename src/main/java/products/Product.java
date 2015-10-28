@@ -1,19 +1,32 @@
 package products;
 
 public class Product {
-    private String id;
+    private Integer id;
     private String order_id;
     private String product_id;
-    private String quantity;
-    private String hash;
+    private Integer quantity;
     private String name;
     private Integer price;
+    private Integer stock;
 
-    public String getId() {
+    public Product(Integer id, Integer quantity) {
+        this.id = id;
+        this.quantity = quantity;
+    }
+
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -25,12 +38,20 @@ public class Product {
         this.order_id = order_id;
     }
 
-    public String getHash() {
-        return hash;
+    public String getProduct_id() {
+        return product_id;
     }
 
-    public void setHash(String hash) {
-        this.hash = hash;
+    public void setProduct_id(String product_id) {
+        this.product_id = product_id;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
     public String getName() {

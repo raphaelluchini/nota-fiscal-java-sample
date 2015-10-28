@@ -25,7 +25,7 @@ public class ProductController {
         }, new JsonTransformer());
 
         post("/products", (req, res) -> {
-            productModel.createProduct(req.queryParams("name"), Integer.parseInt(req.queryParams("price")));
+            productModel.createProduct(req.queryParams("name"), Integer.parseInt(req.queryParams("price")), Integer.parseInt(req.queryParams("stock")));
             res.status(200);
             return new ResponseError("Product '%s' has been created",  req.queryParams("name"));
         }, new JsonTransformer());

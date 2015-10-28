@@ -1,11 +1,8 @@
 package orders;
 
-import clients.Client;
 import database.MySQLAdapter;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
-import products.Product;
-import products.ProductModel;
 
 import java.util.Date;
 import java.util.List;
@@ -35,12 +32,13 @@ public class OrderModel {
         }
     }
 
-    public Long createOrder(Integer costumerId){
+    public Long createOrder(Integer costumerId, Date date){
         Sql2o mysql = MySQLAdapter.connectDB();
-        String sql = "INSERT INTO orders(costumer_id) VALUES (:costumerId)";
+        String sql = "INSERT INTO orders(costumer_id, date) VALUES (:costumerId,:date)";
         try(Connection con = mysql.open()) {
             return (Long) con.createQuery(sql)
                     .addParameter("costumerId", costumerId)
+                    .addParameter("date", date)
                     .executeUpdate()
                     .getKey();
         }

@@ -1,14 +1,15 @@
 package orders;
 
-import clients.Client;
-import clients.ClientModel;
+import customers.Customer;
+import customers.CustomerModel;
+import com.google.gson.Gson;
 import error.ResponseError;
+import handlers.OrderHandler;
 import products.Product;
 import products.ProductModel;
 import transformers.JsonTransformer;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,7 @@ import static spark.Spark.*;
 
 public class OrderController {
 
-    public OrderController(final OrderModel orderModel, final ProductModel productModel, final ClientModel clientModel) {
+    public OrderController(final OrderModel orderModel, final ProductModel productModel, final CustomerModel customerModel) {
         after((req, res) -> {
             res.type("application/json");
         });
@@ -30,7 +31,7 @@ public class OrderController {
 
             if (order != null) {
                 List<Product> products = productModel.getProductsByOrderId(order.getId());
-                Client customer = clientModel.getClient(order.getCustomer_id());
+                Customer customer = customerModel.getCustomer(order.getCustomer_id());
 
                 Map<String, Object> map = new HashMap<>();
                 map.put("order", order);
@@ -44,21 +45,17 @@ public class OrderController {
         }, new JsonTransformer());
 
         post("/orders", (req, res) -> {
-            Map map = new JsonTransformer().toJson(req.body());
-            ArrayList<Integer> products = new ArrayList<Integer>();
-            //TODO: Use real values
 
-//            for(Integer productId : (ArrayList<Integer>) map.get("products")){
-//            }
-            products.add(2);
+            OrderHandler response = new Gson().fromJson(req.body(), OrderHandler.class);
 
-            Long orderId = orderModel.createOrder(Integer.parseInt(map.get("costumerId").toString()));
+            Long orderId = orderModel.createOrder(response.getCustomerId(), new Date());
 
-            for(Integer productId : products){
-                productModel.addProductToOrder(orderId, productId, 2, 1000);
+            for (Product product : response.getProducts()) {
+                Product productDetails = productModel.getProduct(product.getId());
+                productModel.addProductToOrder(orderId, product.getId(), product.getQuantity(), productDetails.getPrice() * product.getQuantity());
             }
             res.status(200);
-            return new ResponseError(map.get("products").toString());
+            return new ResponseError("Order '%s' has been created", orderId.toString());
         }, new JsonTransformer());
 
 
