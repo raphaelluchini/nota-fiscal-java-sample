@@ -1,49 +1,61 @@
 package customers;
 
 import error.ResponseError;
+import spark.ModelAndView;
+import spark.template.handlebars.HandlebarsTemplateEngine;
 import transformers.JsonTransformer;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static spark.Spark.*;
 
 public class CustomerController {
 
-    public CustomerController(final CustomerModel clientModel) {
-        get("/customers", (req, res) -> clientModel.getAllCustomers(), new JsonTransformer());
+    public CustomerController(final CustomerModel customerModel) {
+        get("/customers", (req, res) -> {
+            Map map = new HashMap();
+            map.put("data", customerModel.getAllCustomers());
+            map.put("delete", req.queryParams("delete"));
+            map.put("create", req.queryParams("create"));
+            return new ModelAndView(map, "customers/index.hbs");
+        }, new HandlebarsTemplateEngine());
+
+        get("/customers/new", (req, res) -> {
+            return new ModelAndView(null, "customers/new.hbs");
+        }, new HandlebarsTemplateEngine());
+
         get("/customers/:id", (req, res) -> {
             String id = req.params(":id");
-            Customer client = clientModel.getCustomer(Integer.parseInt(id));
-            if (client != null) {
-                return client;
+            Customer customer = customerModel.getCustomer(Integer.parseInt(id));
+            Map map = new HashMap();
+            map.put("fs", req.queryParams("fs"));
+            if (customer != null) {
+                map.put("data", customer);
             }
-            res.status(400);
-            return new ResponseError("No client with id '%s' found", id);
-        }, new JsonTransformer());
-
+            return new ModelAndView(map, "customers/edit.hbs");
+        }, new HandlebarsTemplateEngine());
 
         post("/customers", (req, res) -> {
-            clientModel.createCustomer(req.queryParams("name"), req.queryParams("email"));
-            res.status(200);
+            customerModel.createCustomer(req.queryParams("name"), req.queryParams("email"));
+            res.redirect("/customers?create=true");
             return null;
-        }, new JsonTransformer());
+        });
 
-        post("/customers/:id/update", (req, res) -> {
-            clientModel.updateCustomer(
+        post("/customers/:id/edit", (req, res) -> {
+            customerModel.updateCustomer(
                     Integer.parseInt(req.params(":id")),
                     req.queryParams("name"),
                     req.queryParams("email"));
-            res.status(200);
-            return null;
-        }, new JsonTransformer());
 
-        post("/customers/:id/delete", (req, res) -> {
-            clientModel.deleteCustomer(Integer.parseInt(req.params(":id")));
-            res.status(200);
+            res.redirect("/customers/" + req.params(":id") + "?fs=true");
             return null;
-        }, new JsonTransformer());
+        });
 
-        exception(IllegalArgumentException.class, (e, req, res) -> {
-            res.status(400);
-            res.body(new JsonTransformer().render(new ResponseError(e)));
+        get("/customers/:id/delete", (req, res) -> {
+            customerModel.deleteCustomer(Integer.parseInt(req.params(":id")));
+            res.redirect("/customers?delete=true");
+            return null;
         });
     }
 }

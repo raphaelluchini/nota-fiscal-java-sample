@@ -1,9 +1,7 @@
 package products;
 
-import error.ResponseError;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
-import transformers.JsonTransformer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -58,10 +56,6 @@ public class ProductController {
             productModel.deleteProduct(Integer.parseInt(req.params(":id")));
             res.redirect("/products?delete=true");
             return null;
-        });
-
-        exception(IllegalArgumentException.class, (e, req, res) -> {
-            res.body(new HandlebarsTemplateEngine().render(new ModelAndView(null, "400.hbs")));
         });
     }
 }

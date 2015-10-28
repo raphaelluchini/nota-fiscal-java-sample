@@ -5,17 +5,14 @@
     <title>Sistema Supermercado</title>
 </head>
 <body>
-    <h1>Produtos</h1>
+    <h1>Editar Cliente</h1>
 
-    <form method="POST" action="/products/{{data.id}}/edit">
+    <form method="POST" action="/customers/{{data.id}}/edit">
         <label for="name">Nome:</label>
         <input type="text" id="name" name="name" value="{{data.name}}">
         <br>
-        <label for="name">Preço:</label>
-        <input type="text" id="price" name="price" value="{{data.price}}">
-        <br>
-        <label for="name">Estoque:</label>
-        <input type="text" id="stock" name="stock" value="{{data.stock}}">
+        <label for="name">Email:</label>
+        <input type="text" id="email" name="email" value="{{data.email}}">
         <br>
         <input type="submit" value="Enviar">
     </form>

@@ -9,12 +9,15 @@
 
     <table>
         <tr>
+            <td>ID</td>
             <td>Nome</td>
             <td>Preço</td>
             <td>Estoque</td>
+            <td>Deletar?</td>
         </tr>
         {{#each data}}
         <tr>
+            <td>{{id}}</td>
             <td><a href="/products/{{id}}">{{name}}</a></td>
             <td>{{price}}</td>
             <td>{{stock}}</td>

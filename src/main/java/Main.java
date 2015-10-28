@@ -17,6 +17,10 @@ public class Main {
         new ProductController(new ProductModel());
 
         get("/", (req, res) -> new ModelAndView(null, "index.hbs"), new HandlebarsTemplateEngine());
+
+        exception(IllegalArgumentException.class, (e, req, res) -> {
+            res.body(new HandlebarsTemplateEngine().render(new ModelAndView(null, "400.hbs")));
+        });
     }
 }
 

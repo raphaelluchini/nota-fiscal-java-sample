@@ -9,17 +9,21 @@
 
     <table>
         <tr>
+            <td>ID</td>
             <td>Nome</td>
             <td>Email</td>
+            <td>Deletar?</td>
         </tr>
         {{#each data}}
         <tr>
+            <td>{{id}}</td>
             <td><a href="/customers/{{id}}">{{name}}</a></td>
             <td>{{email}}</td>
+            <td><a href="/customers/{{id}}/delete">Deletar</a>(Irá deletar deletar as ordens relacionadas)</td>
         </tr>
         {{/each}}
     </table>
-
+    <a href="/customers/new">Criar um novo Cliente</a>
     {{#if delete}}
         <div class="success">Produto deletado com sucesso</div>
     {{/if}}
