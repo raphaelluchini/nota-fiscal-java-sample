@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema Supermercado</title>
+</head>
+<body>
+    <h1>Venda</h1>
+
+    <table>
+        <tr>
+            <td>ID</td>
+            <td>Cliente</td>
+            <td>Preço</td>
+            <td>Produtos</td>
+            <td>Taxas</td>
+        </tr>
+        {{#each data}}
+            <tr>
+                <td>{{id}}</td>
+                <td>{{customer}}</td>
+                <td>{{price}}</td>
+                <td>{{products}}</td>
+                <td>{{tax}}</td>
+            </tr>
+        {{/each}}
+    </table>
+</body>
+</html>

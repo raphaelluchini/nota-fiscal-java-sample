@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema Supermercado</title>
+</head>
+<body>
+    <h1>Vendas</h1>
+
+    <table>
+        <tr>
+            <td>ID</td>
+            <td>Cliente</td>
+            <td>Valor</td>
+        </tr>
+        {{#each data}}
+        <tr>
+            <td><a href="/orders/{{id}}">{{id}}</a></td>
+            <td>{{customer}}</a></td>
+            <td>{{price}}</td>
+            <td><a href="/orders/{{id}}/delete">Deletar</a></td>
+        </tr>
+        {{/each}}
+    </table>
+    <a href="/orders/new">Criar um novo Cliente</a>
+    {{#if delete}}
+        <div class="success">Produto deletado com sucesso</div>
+    {{/if}}
+
+</body>
+</html>
