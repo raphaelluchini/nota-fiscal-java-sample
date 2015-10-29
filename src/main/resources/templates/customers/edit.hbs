@@ -1,10 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Sistema Supermercado</title>
-</head>
-<body>
+{{> header.hbs}}
     <h1>Editar Cliente</h1>
 
     <form method="POST" action="/customers/{{data.id}}/edit">
@@ -19,6 +13,4 @@
     {{#if fs}}
         <div class="success">Produto editado com sucesso</div>
     {{/if}}
-
-</body>
-</html>
+{{> footer.hbs}}
