@@ -1,10 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Sistema Supermercado</title>
-</head>
-<body>
+{{> header.hbs}}
     <h1>Produtos</h1>
 
     <table>
@@ -33,6 +27,4 @@
     {{#if create}}
         <div class="success">Produto criado com sucesso</div>
     {{/if}}
-
-</body>
-</html>
+{{> footer.hbs}}
