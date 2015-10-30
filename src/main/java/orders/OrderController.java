@@ -59,11 +59,15 @@ public class OrderController {
             while (req.queryParams("product[" + i + "]") != null){
                 Integer pId = Integer.parseInt(req.queryParams("product[" + i + "]"));
                 Product  p = productModel.getProduct(pId);
-                productModel.addProductToOrder(
-                        orderId,
-                        pId,
-                        Integer.parseInt(req.queryParams("product[" + i + "][0]")),
-                        p.getPrice());
+                int qtd = Integer.parseInt(req.queryParams("product[" + i + "][0]"));
+
+                if(productModel.getProduct(pId).getStock() >= qtd){
+                    productModel.addProductToOrder(
+                            orderId,
+                            pId,
+                            qtd,
+                            p.getPrice());
+                }
                 i +=1;
             }
 

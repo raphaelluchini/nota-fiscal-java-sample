@@ -54,17 +54,25 @@ public class ProductModel {
         }
     }
 
+
     public void addProductToOrder(Long orderId, Integer productId, Integer quantity, Integer price){
         Sql2o mysql = MySQLAdapter.connectDB();
-        String sql = "INSERT INTO order_products(order_id, product_id, quantity, price) VALUES (:orderId,:productId,:quantity,:price*:quantity)";
+        String sql = "UPDATE products SET stock = stock - :quantity WHERE id=:productId";
+        String sql2 = "INSERT INTO order_products(order_id, product_id, quantity, price) VALUES (:orderId,:productId,:quantity,:price*:quantity)";
 
         try(Connection con = mysql.open()) {
             con.createQuery(sql)
+                    .addParameter("quantity", quantity)
+                    .addParameter("productId", productId)
+                    .executeUpdate();
+
+            con.createQuery(sql2)
                     .addParameter("orderId", orderId)
                     .addParameter("productId", productId)
                     .addParameter("quantity", quantity)
                     .addParameter("price", price)
                     .executeUpdate();
+
         }
     }
 
