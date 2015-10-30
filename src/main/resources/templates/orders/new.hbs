@@ -1,25 +1,30 @@
 {{> header.hbs}}
-    <h1>Criar Venda</h1>
+<h1>Criar Venda</h1>
 
-    <form method="POST" action="/orders">
-        <div class="form-group">
-            <label for="name">Cliente:</label>
+<form method="POST" action="/orders">
+    <div class="form-group">
+        <label for="name">Cliente:</label>
 
-            <select name="customer" id="customer">
-                {{#each customers}}
+        <select name="customer" id="customer">
+            {{#each customers}}
                 <option value="{{id}}">{{name}}</option>
-                {{/each}}
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="product">Produto:</label>
-            <div>
+            {{/each}}
+        </select>
+    </div>
+    <ul id="products-container" class="form-inline list-unstyled">
+
+        <li>
+            <div class="form-group">
+                <label for="product">Produto:</label>
                 <select name="product[0]" id="product">
                     {{#each products}}
                         <option value="{{id}}">{{name}}</option>
                     {{/each}}
                 </select>
-                <select name="product[0][0]" id="product">
+            </div>
+            <div class="form-group">
+                <label for="quantity">Quantidade:</label>
+                <select name="product[0][0]" id="quantity">
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -27,27 +32,36 @@
                     <option value="5">5</option>
                 </select>
             </div>
-            <div>
-                <select name="product[1]" id="product">
-                    {{#each products}}
-                        <option value="{{id}}">{{name}}</option>
-                    {{/each}}
-                </select>
-                <select name="product[1][0]" id="product">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
-            </div>
-        </div>
+        </li>
+    </ul>
+    <div class="btn-group">
+        <button class="btn btn-default" id="btn-more">Adicionar mais produtos</button>
+        <button class="btn btn-default" id="btn-less">Remover Produtos</button>
+        <input type="submit" class="btn btn-success" value="Enviar">
+        <a class="btn btn-warning" href="/products">Voltar</a>
+    </div>
+</form>
+<script>
+    $(document).ready(function () {
+        var count = 1;
+        $('#btn-more').click(function (e) {
+            e.preventDefault();
+            var p = $('#products-container li').last();
+            var pContainer = p.clone();
+            pContainer.find('#product').attr('name',  'product['+count+']');
+            pContainer.find('#quantity').attr('name',  'product['+count+'][0]');
+            pContainer.insertAfter(p);
+            count++;
+        });
 
-        <div class="btn-group">
-            <input type="submit" class="btn btn-default" value="Enviar">
-            <a class="btn btn-warning" href="/products">Voltar</a>
-        </div>
+        $('#btn-less').click(function (e) {
+            e.preventDefault();
+            if(count > 1){
+                $('#products-container li').last().remove();
+                count--;
+            }
+        });
 
-
-    </form>
+    });
+</script>
 {{> footer.hbs}}

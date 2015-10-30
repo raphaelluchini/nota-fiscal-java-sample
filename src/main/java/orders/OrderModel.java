@@ -46,7 +46,7 @@ public class OrderModel {
 
     public void deleteOrder(Integer id){
         Sql2o mysql = MySQLAdapter.connectDB();
-        String sql = "DELETE FROM orders_products WHERE order_id=:id";
+        String sql = "DELETE FROM order_products WHERE order_id=:id";
         String sql2 = "DELETE FROM orders WHERE id=:id";
         try(Connection con = mysql.open()) {
             con.createQuery(sql)

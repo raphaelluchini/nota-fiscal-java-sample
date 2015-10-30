@@ -67,23 +67,12 @@ public class OrderController {
                 i +=1;
             }
 
-
-
-//            OrderHandler response = new Gson().fromJson(req.body(), OrderHandler.class);
-//
-//            Long orderId = orderModel.createOrder(response.getCustomerId(), new Date());
-//
-//            for (Product product : response.getProducts()) {
-//                Product productDetails = productModel.getProduct(product.getId());
-//                productModel.addProductToOrder(orderId, product.getId(), product.getQuantity(), productDetails.getPrice() * product.getQuantity());
-//            }
-
             res.redirect("/orders?create=true");
             return null;
         });
 
 
-        get("/products/:id/delete", (req, res) -> {
+        get("/orders/:id/delete", (req, res) -> {
             orderModel.deleteOrder(Integer.parseInt(req.params(":id")));
             res.redirect("/orders?delete=true");
             return null;
