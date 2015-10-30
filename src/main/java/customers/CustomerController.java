@@ -1,9 +1,8 @@
 package customers;
 
-import error.ResponseError;
+
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
-import transformers.JsonTransformer;
 
 import java.util.HashMap;
 import java.util.Map;
