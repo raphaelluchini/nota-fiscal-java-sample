@@ -1,25 +1,28 @@
 {{> header.hbs}}
     <h1>Produtos</h1>
-
-    <table>
+    <div class="btn-group">
+        <a class="btn btn-primary" href="/products/new">Criar um novo produto</a>
+    </div>
+    <br>
+    <br>
+    <table class="table table-hover">
         <tr>
-            <td>ID</td>
-            <td>Nome</td>
-            <td>Preço</td>
-            <td>Estoque</td>
-            <td>Deletar?</td>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Preço</th>
+            <th>Estoque</th>
+            <th>Deletar?</th>
         </tr>
         {{#each data}}
-        <tr>
-            <td>{{id}}</td>
-            <td><a href="/products/{{id}}">{{name}}</a></td>
-            <td>{{price}}</td>
-            <td>{{stock}}</td>
-            <td><a href="/products/{{id}}/delete">Deletar</a>(Irá deletar deletar os produtos das ordens)</td>
-        </tr>
+            <tr>
+                <td>{{id}}</td>
+                <td><a href="/products/{{id}}">{{name}}</a></td>
+                <td>{{price}}</td>
+                <td>{{stock}}</td>
+                <td><a class="btn btn-danger btn-sm" href="/products/{{id}}/delete"><i class="glyphicon glyphicon-trash"></i></a></td>
+            </tr>
         {{/each}}
     </table>
-    <a href="/products/new">Criar um novo produto</a>
     {{#if delete}}
         <div class="success">Produto deletado com sucesso</div>
     {{/if}}
@@ -27,4 +30,5 @@
     {{#if create}}
         <div class="success">Produto criado com sucesso</div>
     {{/if}}
+
 {{> footer.hbs}}
