@@ -1,22 +1,27 @@
 {{> header.hbs}}
     <h1>Vendas</h1>
-
-    <table>
+    <div class="btn-group">
+        <a class="btn btn-primary" href="/orders/new">Criar uma nova venda</a>
+        <a class="btn btn-warning" href="/">Voltar</a>
+    </div>
+    <br>
+    <br>
+    <table class="table table-hover">
         <tr>
-            <td>ID</td>
-            <td>Cliente</td>
-            <td>Valor</td>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Valor</th>
+            <th>Deletar?</th>
         </tr>
         {{#each data}}
         <tr>
             <td><a href="/orders/{{id}}">{{id}}</a></td>
-            <td>{{customer}}</a></td>
-            <td>{{price}}</td>
-            <td><a href="/orders/{{id}}/delete">Deletar</a></td>
+            <td>{{customerName}}</a></td>
+            <td>{{order_total}}</td>
+            <td><a class="btn btn-danger btn-sm" href="/orders/{{id}}/delete"><i class="glyphicon glyphicon-trash"></i></a></td>
         </tr>
         {{/each}}
     </table>
-    <a href="/orders/new">Criar um novo Cliente</a>
     {{#if delete}}
         <div class="success">Produto deletado com sucesso</div>
     {{/if}}

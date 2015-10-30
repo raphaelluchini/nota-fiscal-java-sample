@@ -1,22 +1,46 @@
 {{> header.hbs}}
-    <h1>Venda</h1>
+<h1>Editar Produto</h1>
+<div class="col-md-4">
+    <form>
+        <div class="form-group">
+            <label for="name">ID:</label>
+            <span id="name">{{order.id}}</span>
+        </div>
 
-    <table>
-        <tr>
-            <td>ID</td>
-            <td>Cliente</td>
-            <td>Preço</td>
-            <td>Produtos</td>
-            <td>Taxas</td>
-        </tr>
-        {{#each data}}
-            <tr>
-                <td>{{id}}</td>
-                <td>{{customer}}</td>
-                <td>{{price}}</td>
-                <td>{{products}}</td>
-                <td>{{tax}}</td>
-            </tr>
-        {{/each}}
-    </table>
+        <div class="form-group">
+            <label for="name">Cliente:</label>
+            <a id="name" href="/customers/{{customer.id}}">{{customer.name}}</a>
+        </div>
+
+        <div class="form-group">
+            <label for="name">Produtos:</label>
+            <table class="table table-hover">
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Quantidade</th>
+                    <th>Preço</th>
+                </tr>
+                {{#each products}}
+                    <tr>
+                        <td><a href="/products/{{id}}">{{id}}</a></td>
+                        <td><a href="/products/{{id}}">{{name}}</a></td>
+                        <td>{{quantity}}</td>
+                        <td>{{price}}</td>
+                    </tr>
+                {{/each}}
+            </table>
+            <label for="name">Valor Total:</label>
+            <span id="name">{{order.order_total}}</span>
+        </div>
+
+        <div class="btn-group">
+            <a class="btn btn-warning" href="/orders">Voltar</a>
+        </div>
+    </form>
+
+</div>
+{{#if fs}}
+    <div class="success">Produto editado com sucesso</div>
+{{/if}}
 {{> footer.hbs}}

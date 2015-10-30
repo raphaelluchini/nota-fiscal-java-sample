@@ -70,7 +70,7 @@ public class ProductModel {
 
     public List<Product> getProductsByOrderId(Integer id){
         Sql2o mysql = MySQLAdapter.connectDB();
-        String sql = "SELECT * FROM order_products WHERE order_id= :id";
+        String sql = "SELECT p.id, op.quantity, p.name, p.price FROM order_products op JOIN products p ON op.product_id = p.id WHERE order_id=:id";
 
         try(Connection con = mysql.open()) {
             return con.createQuery(sql)

@@ -5,7 +5,10 @@ import java.util.Date;
 public class Order {
     private Integer id;
     private String hash;
+    private String customerName;
     private Integer customer_id;
+    private Integer products_in_order;
+    private Integer order_total;
     private Date date;
 
     public Integer getId() {
@@ -24,12 +27,36 @@ public class Order {
         this.hash = hash;
     }
 
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
     public Integer getCustomer_id() {
         return customer_id;
     }
 
     public void setCustomer_id(Integer customer_id) {
         this.customer_id = customer_id;
+    }
+
+    public Integer getProducts_in_order() {
+        return products_in_order;
+    }
+
+    public void setProducts_in_order(Integer products_in_order) {
+        this.products_in_order = products_in_order;
+    }
+
+    public Integer getOrder_total() {
+        return order_total;
+    }
+
+    public void setOrder_total(Integer order_total) {
+        this.order_total = order_total;
     }
 
     public Date getDate() {

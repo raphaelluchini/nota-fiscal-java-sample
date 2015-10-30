@@ -7,6 +7,8 @@ import error.ResponseError;
 import handlers.OrderHandler;
 import products.Product;
 import products.ProductModel;
+import spark.ModelAndView;
+import spark.template.handlebars.HandlebarsTemplateEngine;
 import transformers.JsonTransformer;
 
 import java.util.Date;
@@ -19,26 +21,31 @@ import static spark.Spark.*;
 public class OrderController {
 
     public OrderController(final OrderModel orderModel, final ProductModel productModel, final CustomerModel customerModel) {
-        get("/orders", (req, res) -> orderModel.getAllOrders(), new JsonTransformer());
+        get("/orders", (req, res) -> {
+            Map map = new HashMap();
+            map.put("data", orderModel.getAllOrders());
+            map.put("delete", req.queryParams("delete"));
+            map.put("create", req.queryParams("create"));
+
+            return new ModelAndView(map, "orders/index.hbs");
+        }, new HandlebarsTemplateEngine());
 
         get("/orders/:id", (req, res) -> {
             String id = req.params(":id");
             Order order = orderModel.getOrder(Integer.parseInt(id));
-
+            Map<String, Object> map = new HashMap<>();
+            
             if (order != null) {
                 List<Product> products = productModel.getProductsByOrderId(order.getId());
                 Customer customer = customerModel.getCustomer(order.getCustomer_id());
 
-                Map<String, Object> map = new HashMap<>();
                 map.put("order", order);
                 map.put("products", products);
                 map.put("customer", customer);
-
-                return map;
             }
-            res.status(400);
-            return new ResponseError("No client with id '%s' found", id);
-        }, new JsonTransformer());
+
+            return new ModelAndView(map, "orders/view.hbs");
+        }, new HandlebarsTemplateEngine());
 
         post("/orders", (req, res) -> {
 

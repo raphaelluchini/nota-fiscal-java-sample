@@ -1,35 +1,35 @@
 {{> header.hbs}}
-    <h1>Produtos</h1>
-    <div class="btn-group">
-        <a class="btn btn-primary" href="/products/new">Criar um novo produto</a>
-        <a class="btn btn-warning" href="/">Voltar</a>
-    </div>
-    <br>
-    <br>
-    <table class="table table-hover">
+<h1>Produtos</h1>
+<div class="btn-group">
+    <a class="btn btn-primary" href="/products/new">Criar um novo produto</a>
+    <a class="btn btn-warning" href="/">Voltar</a>
+</div>
+<br>
+<br>
+<table class="table table-hover">
+    <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Preço</th>
+        <th>Estoque</th>
+        <th>Deletar?</th>
+    </tr>
+    {{#each data}}
         <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Preço</th>
-            <th>Estoque</th>
-            <th>Deletar?</th>
+            <td>{{id}}</td>
+            <td><a href="/products/{{id}}">{{name}}</a></td>
+            <td>{{price}}</td>
+            <td>{{stock}}</td>
+            <td><a class="btn btn-danger btn-sm" href="/products/{{id}}/delete"><i class="glyphicon glyphicon-trash"></i></a></td>
         </tr>
-        {{#each data}}
-            <tr>
-                <td>{{id}}</td>
-                <td><a href="/products/{{id}}">{{name}}</a></td>
-                <td>{{price}}</td>
-                <td>{{stock}}</td>
-                <td><a class="btn btn-danger btn-sm" href="/products/{{id}}/delete"><i class="glyphicon glyphicon-trash"></i></a></td>
-            </tr>
-        {{/each}}
-    </table>
-    {{#if delete}}
-        <div class="success">Produto deletado com sucesso</div>
-    {{/if}}
+    {{/each}}
+</table>
+{{#if delete}}
+    <div class="success">Produto deletado com sucesso</div>
+{{/if}}
 
-    {{#if create}}
-        <div class="success">Produto criado com sucesso</div>
-    {{/if}}
+{{#if create}}
+    <div class="success">Produto criado com sucesso</div>
+{{/if}}
 
 {{> footer.hbs}}
