@@ -2,15 +2,10 @@ package orders;
 
 import customers.Customer;
 import customers.CustomerModel;
-import com.google.gson.Gson;
-import error.ResponseError;
-import handlers.OrderHandler;
 import products.Product;
 import products.ProductModel;
 import spark.ModelAndView;
-import spark.QueryParamsMap;
 import spark.template.handlebars.HandlebarsTemplateEngine;
-import transformers.JsonTransformer;
 
 import java.util.*;
 
