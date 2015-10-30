@@ -16,13 +16,14 @@ public class Main {
 
         get("/", (req, res) -> new ModelAndView(null, "index.hbs"), new HandlebarsTemplateEngine());
 
-        exception(IllegalArgumentException.class, (e, req, res) -> {
-            res.body(new HandlebarsTemplateEngine().render(new ModelAndView(null, "400.hbs")));
-        });
 
         new CustomerController(new CustomerModel());
         new OrderController(new OrderModel(), new ProductModel(), new CustomerModel());
         new ProductController(new ProductModel());
+
+        exception(IllegalArgumentException.class, (e, req, res) -> {
+            res.body(new HandlebarsTemplateEngine().render(new ModelAndView(null, "400.hbs")));
+        });
     }
 }
 

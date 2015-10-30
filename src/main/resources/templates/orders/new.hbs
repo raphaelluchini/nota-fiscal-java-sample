@@ -2,6 +2,52 @@
     <h1>Criar Venda</h1>
 
     <form method="POST" action="/orders">
+        <div class="form-group">
+            <label for="name">Cliente:</label>
+
+            <select name="customer" id="customer">
+                {{#each customers}}
+                <option value="{{id}}">{{name}}</option>
+                {{/each}}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="product">Produto:</label>
+            <div>
+                <select name="product[0]" id="product">
+                    {{#each products}}
+                        <option value="{{id}}">{{name}}</option>
+                    {{/each}}
+                </select>
+                <select name="product[0][0]" id="product">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            <div>
+                <select name="product[1]" id="product">
+                    {{#each products}}
+                        <option value="{{id}}">{{name}}</option>
+                    {{/each}}
+                </select>
+                <select name="product[1][0]" id="product">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <input type="submit" class="btn btn-default" value="Enviar">
+            <a class="btn btn-warning" href="/products">Voltar</a>
+        </div>
+
 
     </form>
 {{> footer.hbs}}

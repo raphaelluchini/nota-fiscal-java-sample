@@ -8,13 +8,11 @@ import handlers.OrderHandler;
 import products.Product;
 import products.ProductModel;
 import spark.ModelAndView;
+import spark.QueryParamsMap;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 import transformers.JsonTransformer;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static spark.Spark.*;
 
@@ -30,11 +28,18 @@ public class OrderController {
             return new ModelAndView(map, "orders/index.hbs");
         }, new HandlebarsTemplateEngine());
 
+        get("/orders/new", (req, res) ->  {
+            Map map = new HashMap();
+            map.put("customers", customerModel.getAllCustomers());
+            map.put("products", productModel.getAllProducts());
+            return new ModelAndView(map, "orders/new.hbs");
+        }, new HandlebarsTemplateEngine());
+
         get("/orders/:id", (req, res) -> {
             String id = req.params(":id");
             Order order = orderModel.getOrder(Integer.parseInt(id));
             Map<String, Object> map = new HashMap<>();
-            
+
             if (order != null) {
                 List<Product> products = productModel.getProductsByOrderId(order.getId());
                 Customer customer = customerModel.getCustomer(order.getCustomer_id());
@@ -48,29 +53,40 @@ public class OrderController {
         }, new HandlebarsTemplateEngine());
 
         post("/orders", (req, res) -> {
+            Long orderId = orderModel.createOrder(Integer.parseInt(req.queryParams("customer")), new Date());
 
-            OrderHandler response = new Gson().fromJson(req.body(), OrderHandler.class);
-
-            Long orderId = orderModel.createOrder(response.getCustomerId(), new Date());
-
-            for (Product product : response.getProducts()) {
-                Product productDetails = productModel.getProduct(product.getId());
-                productModel.addProductToOrder(orderId, product.getId(), product.getQuantity(), productDetails.getPrice() * product.getQuantity());
+            Integer i = 0;
+            while (req.queryParams("product[" + i + "]") != null){
+                Integer pId = Integer.parseInt(req.queryParams("product[" + i + "]"));
+                Product  p = productModel.getProduct(pId);
+                productModel.addProductToOrder(
+                        orderId,
+                        pId,
+                        Integer.parseInt(req.queryParams("product[" + i + "][0]")),
+                        p.getPrice());
+                i +=1;
             }
-            res.status(200);
-            return new ResponseError("Order '%s' has been created", orderId.toString());
-        }, new JsonTransformer());
 
 
-        delete("/orders/:id", (req, res) -> {
-            orderModel.deleteOrder(Integer.parseInt(req.params(":id")));
-            res.status(200);
+
+//            OrderHandler response = new Gson().fromJson(req.body(), OrderHandler.class);
+//
+//            Long orderId = orderModel.createOrder(response.getCustomerId(), new Date());
+//
+//            for (Product product : response.getProducts()) {
+//                Product productDetails = productModel.getProduct(product.getId());
+//                productModel.addProductToOrder(orderId, product.getId(), product.getQuantity(), productDetails.getPrice() * product.getQuantity());
+//            }
+
+            res.redirect("/orders?create=true");
             return null;
-        }, new JsonTransformer());
+        });
 
-        exception(IllegalArgumentException.class, (e, req, res) -> {
-            res.status(400);
-            res.body(new JsonTransformer().render(new ResponseError(e)));
+
+        get("/products/:id/delete", (req, res) -> {
+            orderModel.deleteOrder(Integer.parseInt(req.params(":id")));
+            res.redirect("/orders?delete=true");
+            return null;
         });
     }
 }
