@@ -25,7 +25,7 @@ public class OrderController {
 
         get("/orders/new", (req, res) ->  {
             Map map = new HashMap();
-            map.put("customer", customerModel.getAllCustomers());
+            map.put("customers", customerModel.getAllCustomers());
             map.put("products", productModel.getAllProducts());
             return new ModelAndView(map, "orders/new.hbs");
         }, new HandlebarsTemplateEngine());
