@@ -14,7 +14,7 @@ import static spark.Spark.*;
 public class OrderController {
 
     public OrderController(final OrderModel orderModel, final ProductModel productModel, final CustomerModel customerModel) {
-        get("/com/devsolutions/customer/orders", (req, res) -> {
+        get("/customer/orders", (req, res) -> {
             Map map = new HashMap();
             map.put("data", orderModel.getAllOrders());
             map.put("delete", req.queryParams("delete"));
@@ -23,14 +23,14 @@ public class OrderController {
             return new ModelAndView(map, "com/devsolutions/customer/orders/index.hbs");
         }, new HandlebarsTemplateEngine());
 
-        get("/com/devsolutions/customer/orders/new", (req, res) ->  {
+        get("/customer/orders/new", (req, res) ->  {
             Map map = new HashMap();
             map.put("com/devsolutions/customer", customerModel.getAllCustomers());
             map.put("com/devsolutions/customer/products", productModel.getAllProducts());
             return new ModelAndView(map, "com/devsolutions/customer/orders/new.hbs");
         }, new HandlebarsTemplateEngine());
 
-        get("/com/devsolutions/customer/orders/:id", (req, res) -> {
+        get("/customer/orders/:id", (req, res) -> {
             String id = req.params(":id");
             Order order = orderModel.getOrder(Integer.parseInt(id));
             Map<String, Object> map = new HashMap<>();
@@ -47,7 +47,7 @@ public class OrderController {
             return new ModelAndView(map, "com/devsolutions/customer/orders/view.hbs");
         }, new HandlebarsTemplateEngine());
 
-        post("/com/devsolutions/customer/orders", (req, res) -> {
+        post("/customer/orders", (req, res) -> {
             Long orderId = orderModel.createOrder(Integer.parseInt(req.queryParams("customer")), new Date());
 
             Integer i = 0;
@@ -66,14 +66,14 @@ public class OrderController {
                 i +=1;
             }
 
-            res.redirect("/com/devsolutions/customer/orders");
+            res.redirect("/customer/orders");
             return null;
         });
 
 
-        get("/com/devsolutions/customer/orders/:id/delete", (req, res) -> {
+        get("/customer/orders/:id/delete", (req, res) -> {
             orderModel.deleteOrder(Integer.parseInt(req.params(":id")));
-            res.redirect("/com/devsolutions/customer/orders");
+            res.redirect("/customer/orders");
             return null;
         });
     }
