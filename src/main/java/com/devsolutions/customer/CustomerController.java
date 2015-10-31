@@ -35,9 +35,9 @@ public class CustomerController {
             return new ModelAndView(map, "customers/edit.hbs");
         }, new HandlebarsTemplateEngine());
 
-        post("/customer", (req, res) -> {
+        post("/customers", (req, res) -> {
             customerModel.createCustomer(req.queryParams("name"), req.queryParams("email"));
-            res.redirect("/customer");
+            res.redirect("/customers");
             return null;
         });
 
@@ -53,7 +53,7 @@ public class CustomerController {
 
         get("/customers/:id/delete", (req, res) -> {
             customerModel.deleteCustomer(Integer.parseInt(req.params(":id")));
-            res.redirect("/customer");
+            res.redirect("/customers");
             return null;
         });
     }
