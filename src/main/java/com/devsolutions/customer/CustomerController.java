@@ -12,19 +12,19 @@ import static spark.Spark.*;
 public class CustomerController {
 
     public CustomerController(final CustomerModel customerModel) {
-        get("/customer", (req, res) -> {
+        get("/customers", (req, res) -> {
             Map map = new HashMap();
             map.put("data", customerModel.getAllCustomers());
             map.put("delete", req.queryParams("delete"));
             map.put("create", req.queryParams("create"));
-            return new ModelAndView(map, "customer/index.hbs");
+            return new ModelAndView(map, "customers/index.hbs");
         }, new HandlebarsTemplateEngine());
 
-        get("/customer/new", (req, res) -> {
-            return new ModelAndView(null, "customer/new.hbs");
+        get("/customers/new", (req, res) -> {
+            return new ModelAndView(null, "customers/new.hbs");
         }, new HandlebarsTemplateEngine());
 
-        get("/customer/:id", (req, res) -> {
+        get("/customers/:id", (req, res) -> {
             String id = req.params(":id");
             Customer customer = customerModel.getCustomer(Integer.parseInt(id));
             Map map = new HashMap();
@@ -32,7 +32,7 @@ public class CustomerController {
             if (customer != null) {
                 map.put("data", customer);
             }
-            return new ModelAndView(map, "customer/edit.hbs");
+            return new ModelAndView(map, "customers/edit.hbs");
         }, new HandlebarsTemplateEngine());
 
         post("/customer", (req, res) -> {
@@ -41,17 +41,17 @@ public class CustomerController {
             return null;
         });
 
-        post("/customer/:id/edit", (req, res) -> {
+        post("/customers/:id/edit", (req, res) -> {
             customerModel.updateCustomer(
                     Integer.parseInt(req.params(":id")),
                     req.queryParams("name"),
                     req.queryParams("email"));
 
-            res.redirect("/customer/" + req.params(":id") + "?fs=true");
+            res.redirect("/customers/" + req.params(":id") + "?fs=true");
             return null;
         });
 
-        get("/customer/:id/delete", (req, res) -> {
+        get("/customers/:id/delete", (req, res) -> {
             customerModel.deleteCustomer(Integer.parseInt(req.params(":id")));
             res.redirect("/customer");
             return null;

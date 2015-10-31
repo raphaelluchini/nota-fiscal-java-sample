@@ -14,23 +14,23 @@ import static spark.Spark.*;
 public class OrderController {
 
     public OrderController(final OrderModel orderModel, final ProductModel productModel, final CustomerModel customerModel) {
-        get("/customer/orders", (req, res) -> {
+        get("/orders", (req, res) -> {
             Map map = new HashMap();
             map.put("data", orderModel.getAllOrders());
             map.put("delete", req.queryParams("delete"));
             map.put("create", req.queryParams("create"));
 
-            return new ModelAndView(map, "com/devsolutions/customer/orders/index.hbs");
+            return new ModelAndView(map, "orders/index.hbs");
         }, new HandlebarsTemplateEngine());
 
-        get("/customer/orders/new", (req, res) ->  {
+        get("/orders/new", (req, res) ->  {
             Map map = new HashMap();
-            map.put("com/devsolutions/customer", customerModel.getAllCustomers());
-            map.put("com/devsolutions/customer/products", productModel.getAllProducts());
-            return new ModelAndView(map, "com/devsolutions/customer/orders/new.hbs");
+            map.put("customer", customerModel.getAllCustomers());
+            map.put("products", productModel.getAllProducts());
+            return new ModelAndView(map, "orders/new.hbs");
         }, new HandlebarsTemplateEngine());
 
-        get("/customer/orders/:id", (req, res) -> {
+        get("/orders/:id", (req, res) -> {
             String id = req.params(":id");
             Order order = orderModel.getOrder(Integer.parseInt(id));
             Map<String, Object> map = new HashMap<>();
@@ -40,14 +40,14 @@ public class OrderController {
                 Customer customer = customerModel.getCustomer(order.getCustomer_id());
 
                 map.put("order", order);
-                map.put("com/devsolutions/customer/products", products);
+                map.put("products", products);
                 map.put("customer", customer);
             }
 
-            return new ModelAndView(map, "com/devsolutions/customer/orders/view.hbs");
+            return new ModelAndView(map, "orders/view.hbs");
         }, new HandlebarsTemplateEngine());
 
-        post("/customer/orders", (req, res) -> {
+        post("/orders", (req, res) -> {
             Long orderId = orderModel.createOrder(Integer.parseInt(req.queryParams("customer")), new Date());
 
             Integer i = 0;
@@ -66,14 +66,14 @@ public class OrderController {
                 i +=1;
             }
 
-            res.redirect("/customer/orders");
+            res.redirect("/orders");
             return null;
         });
 
 
-        get("/customer/orders/:id/delete", (req, res) -> {
+        get("/orders/:id/delete", (req, res) -> {
             orderModel.deleteOrder(Integer.parseInt(req.params(":id")));
-            res.redirect("/customer/orders");
+            res.redirect("/orders");
             return null;
         });
     }
