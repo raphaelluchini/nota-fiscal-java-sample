@@ -1,6 +1,5 @@
 package com.devsolutions.customer;
 
-import com.devsolutions.database.MySQLAdapter;
 import com.devsolutions.orders.Order;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
@@ -9,8 +8,13 @@ import java.util.List;
 
 public class CustomerModel {
 
+    public Sql2o mysql = null;
+
+    public CustomerModel(Sql2o mysql) {
+        this.mysql = mysql;
+    }
+
     public List<Customer> getAllCustomers(){
-        Sql2o mysql = MySQLAdapter.connectDB();
         String sql = "SELECT * FROM customers";
         try(Connection con = mysql.open()) {
             return con.createQuery(sql).executeAndFetch(Customer.class);
@@ -18,7 +22,6 @@ public class CustomerModel {
     }
 
     public Customer getCustomer(Integer id){
-        Sql2o mysql = MySQLAdapter.connectDB();
         String sql = "SELECT id, name, email FROM customers WHERE id= :id";
         try(Connection con = mysql.open()) {
             return con.createQuery(sql)
@@ -28,7 +31,6 @@ public class CustomerModel {
     }
 
     public void createCustomer(String name, String email){
-        Sql2o mysql = MySQLAdapter.connectDB();
         String sql = "INSERT INTO customers(name, email) VALUES (:name, :email)";
         try(Connection con = mysql.open()) {
             con.createQuery(sql)
@@ -39,7 +41,6 @@ public class CustomerModel {
     }
 
     public void updateCustomer(Integer id, String name, String email){
-        Sql2o mysql = MySQLAdapter.connectDB();
         String sql = "UPDATE customers SET name= :name, email= :email WHERE id=:id";
         try(Connection con = mysql.open()) {
             con.createQuery(sql)
@@ -51,7 +52,6 @@ public class CustomerModel {
     }
 
     public void deleteCustomer(Integer id){
-        Sql2o mysql = MySQLAdapter.connectDB();
         String sql = "SELECT * FROM orders WHERE customer_id=:customer_id";
 
         String sql1 = "DELETE FROM order_products WHERE order_id=:order_id";
