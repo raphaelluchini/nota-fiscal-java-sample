@@ -66,7 +66,7 @@ public class OrderController {
                 i +=1;
             }
 
-            res.redirect("/orders");
+            res.redirect("/orders/"+orderId);
             return null;
         });
 

@@ -23,7 +23,7 @@ Run
 ##mySQL
 Database connect information are located in com/devsolutions/database/MySQLAdapter.java
 Check if they are the same of your computer
-```
+```java
 public static String USERNAME = "root";
 public static String PASSWORD = "";
 public static String PORT_NUMBER = "3306";
