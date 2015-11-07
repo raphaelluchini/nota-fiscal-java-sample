@@ -5,7 +5,8 @@ import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
 import java.util.List;
-
+//Esta classe contém todas as operações com o banco, relacionado a tabela 'customers', nao use regras de negócio aqui.
+//This file contains all SQL operations related with table 'customers', do not use business rule here
 public class CustomerModel {
 
     public Sql2o mysql = null;

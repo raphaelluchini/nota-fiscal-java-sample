@@ -6,7 +6,10 @@ import org.sql2o.Sql2o;
 import java.util.Date;
 import java.util.List;
 
+//Esta classe contém todas as operações com o banco, relacionado a tabela 'orders', nao use regras de negócio aqui.
+//This file contains all SQL operations related with table 'orders', do not use business rule here
 public class OrderModel {
+
     public Sql2o mysql = null;
 
     public OrderModel(Sql2o mysql) {

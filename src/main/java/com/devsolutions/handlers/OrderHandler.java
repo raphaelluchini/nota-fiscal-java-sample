@@ -4,10 +4,10 @@ import com.google.gson.annotations.SerializedName;
 import com.devsolutions.products.Product;
 
 import java.util.ArrayList;
-
 /**
- * Created by raphaelluchini on 10/27/15.
- */
+ * Essa classe parseia todos os campos recebidos no post de uma ordem, para poder inserir no banco
+ * This class parse all Order post data to inserto in the database
+*/
 public class OrderHandler {
     @SerializedName("data")
     private Data data;

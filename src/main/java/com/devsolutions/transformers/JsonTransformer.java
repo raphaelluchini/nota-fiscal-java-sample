@@ -5,6 +5,10 @@ import spark.ResponseTransformer;
 
 import java.util.Map;
 
+/**
+ * Classe para transformar Json em String, e vice versa
+ */
+
 public class JsonTransformer implements ResponseTransformer {
     private Gson gson = new Gson();
 

@@ -13,6 +13,15 @@ import spark.template.handlebars.HandlebarsTemplateEngine;
 
 import static spark.Spark.*;
 
+/**
+ * Aplicação Web que gerencia produtos, estoque e cria notas fiscais na venda para um cliente, calculando os impostos.
+ * Web Application that manage products, clients, and place orders with tax
+ *
+ * Technologies used:
+ * Sparkjava (Router/Server)
+ * sql2o (Database)
+ * Handlebars (Template Engine)
+ */
 public class Main {
 
     public static void init(MySQLAdapter mySQLAdapter){

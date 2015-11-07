@@ -1,5 +1,7 @@
 package com.devsolutions.customer;
 
+//Todas as propriedades usadas para fazer o CRUD de um cliente
+//All properties used to CRUD an customer
 public class Customer {
     private Integer id;
     private String name;

@@ -2,6 +2,8 @@ package com.devsolutions.orders;
 
 import java.util.Date;
 
+//Todas as propriedades usadas para fazer o CRUD de uma ordem(venda/nota fiscal)
+//All properties used to CRUD an Order
 public class Order {
     private Integer id;
     private String hash;

@@ -26,12 +26,18 @@
                         <td><a href="/products/{{id}}">{{id}}</a></td>
                         <td><a href="/products/{{id}}">{{name}}</a></td>
                         <td>{{quantity}}</td>
-                        <td>{{price}}</td>
+                        <td>R$ {{price}}</td>
                     </tr>
                 {{/each}}
             </table>
-            <label for="name">Valor Total:</label>
-            <span id="name">{{order.order_total}}</span>
+            <label for="name">Subtotal:</label>
+            <span id="name">R$ {{order.order_total}}</span>
+            <br>
+            <label for="name">Valor Total + impostos:</label>
+            <span id="name">R$ {{totalTax}}</span>
+            <br>
+            <label for="name">Porcentagem de imposto:</label>
+            <span id="name">{{taxPercentage}}%</span>
         </div>
 
         <div class="btn-group">

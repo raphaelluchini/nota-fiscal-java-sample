@@ -1,5 +1,7 @@
 package com.devsolutions.products;
 
+//Todas as propriedades usadas para fazer o CRUD de um produto
+//All properties used to CRUD an product
 public class Product {
     private Integer id;
     private String order_id;

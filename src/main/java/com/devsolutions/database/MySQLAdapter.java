@@ -1,7 +1,9 @@
 package com.devsolutions.database;
 
 import org.sql2o.Sql2o;
-
+/*
+A simple adapter to manage database connection
+ */
 public class MySQLAdapter {
     public static String USERNAME = "root";
     public static String PASSWORD = "";
