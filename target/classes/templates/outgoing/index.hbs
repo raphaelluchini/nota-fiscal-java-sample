@@ -1,0 +1,45 @@
+{{> header.hbs}}
+<h1>Despesas</h1>
+<div class="btn-group">
+    <a class="btn btn-primary" href="/outgoing/new">Criar uma nova despesa</a>
+    <a class="btn btn-warning" href="/">Voltar</a>
+</div>
+<br>
+<br>
+<table class="table table-hover">
+    <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Preço</th>
+        <th>Deletar?</th>
+    </tr>
+    {{#each data}}
+        <tr>
+            <td>{{id}}</td>
+            <td><a href="/outgoing/{{id}}">{{name}}</a></td>
+            <td>R${{price}}</td>
+            <td><a class="btn btn-danger btn-sm" href="/outgoing/{{id}}/delete"><i class="glyphicon glyphicon-trash"></i></a></td>
+        </tr>
+    {{/each}}
+    <tr>
+        <td>Total em vendas</td>
+        <td></td>
+        <td><b>R${{productTotal}}</b></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Balanço Total</td>
+        <td></td>
+        <td><b>R${{balanceTotal}}</b></td>
+        <td></td>
+    </tr>
+</table>
+{{#if delete}}
+    <div class="success">Despesa deletado com sucesso</div>
+{{/if}}
+
+{{#if create}}
+    <div class="success">Despesa criada com sucesso</div>
+{{/if}}
+
+{{> footer.hbs}}

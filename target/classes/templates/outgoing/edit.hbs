@@ -1,0 +1,25 @@
+{{> header.hbs}}
+<h1>Editar Despesa</h1>
+<div class="col-md-4">
+    <form method="POST" action="/outgoing/{{data.id}}/edit">
+        <div class="form-group">
+            <label for="name">Nome:</label>
+            <input type="text" id="name" name="name" value="{{data.name}}" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="name">Preço:</label>
+            <input type="number" id="price" name="price" value="{{data.price}}" class="form-control">
+        </div>
+
+        <div class="btn-group">
+            <input type="submit" class="btn btn-default" value="Enviar">
+            <a class="btn btn-warning" href="/outgoing">Voltar</a>
+        </div>
+    </form>
+
+</div>
+{{#if fs}}
+    <div class="success">Despesa editada com sucesso</div>
+{{/if}}
+{{> footer.hbs}}

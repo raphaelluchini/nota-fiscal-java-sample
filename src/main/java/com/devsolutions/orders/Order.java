@@ -12,6 +12,15 @@ public class Order {
     private Integer products_in_order;
     private Integer order_total;
     private Date date;
+    private Integer price;
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
 
     public Integer getId() {
         return id;

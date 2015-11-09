@@ -5,6 +5,8 @@ import com.devsolutions.customer.CustomerModel;
 import com.devsolutions.database.MySQLAdapter;
 import com.devsolutions.orders.OrderController;
 import com.devsolutions.orders.OrderModel;
+import com.devsolutions.outgoing.OutgoingController;
+import com.devsolutions.outgoing.OutgoingModel;
 import com.devsolutions.products.ProductController;
 import com.devsolutions.products.ProductModel;
 import org.sql2o.Sql2o;
@@ -36,10 +38,12 @@ public class Main {
         CustomerModel customerModel =  new CustomerModel(mysql);
         OrderModel orderModel = new OrderModel(mysql);
         ProductModel productModel = new ProductModel(mysql);
+        OutgoingModel outgoingModel = new OutgoingModel(mysql);
 
         new CustomerController(customerModel);
         new OrderController(orderModel, productModel, customerModel);
         new ProductController(productModel);
+        new OutgoingController(outgoingModel, orderModel);
 
         exception(IllegalArgumentException.class, (e, req, res) -> {
             res.body(new HandlebarsTemplateEngine().render(new ModelAndView(null, "400.hbs")));

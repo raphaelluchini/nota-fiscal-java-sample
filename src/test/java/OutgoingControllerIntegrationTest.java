@@ -18,7 +18,7 @@ import spark.utils.IOUtils;
 
 import static org.junit.Assert.*;
 
-public class ProductControllerIntegrationTest {
+public class OutgoingControllerIntegrationTest {
     private static int PORT = 4567;
     private static String DB_TEST_NAME = "test_notafiscal";
 

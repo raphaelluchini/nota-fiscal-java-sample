@@ -44,7 +44,7 @@ public class CustomerController {
         //Rota post que cria um cliente
         //Post url to create a customer
         post("/customers", (req, res) -> {
-            customerModel.createCustomer(req.queryParams("name"), req.queryParams("email"));
+            customerModel.createCustomer(req.queryParams("name"), req.queryParams("email"), req.queryParams("cpf"), req.queryParams("address"));
             res.redirect("/customers");
             return null;
         });
@@ -54,7 +54,9 @@ public class CustomerController {
             customerModel.updateCustomer(
                     Integer.parseInt(req.params(":id")),
                     req.queryParams("name"),
-                    req.queryParams("email"));
+                    req.queryParams("email"),
+                    req.queryParams("cpf"),
+                    req.queryParams("address"));
 
             res.redirect("/customers/" + req.params(":id") + "?fs=true");
             return null;

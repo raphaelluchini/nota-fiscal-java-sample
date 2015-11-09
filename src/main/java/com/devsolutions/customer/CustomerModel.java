@@ -31,23 +31,27 @@ public class CustomerModel {
         }
     }
 
-    public void createCustomer(String name, String email){
-        String sql = "INSERT INTO customers(name, email) VALUES (:name, :email)";
+    public void createCustomer(String name, String email, String cpf, String address){
+        String sql = "INSERT INTO customers(name, email, cpf, address) VALUES (:name, :email, :cpf, :address)";
         try(Connection con = mysql.open()) {
             con.createQuery(sql)
                     .addParameter("name", name)
                     .addParameter("email", email)
+                    .addParameter("cpf", cpf)
+                    .addParameter("address", address)
                     .executeUpdate();
         }
     }
 
-    public void updateCustomer(Integer id, String name, String email){
-        String sql = "UPDATE customers SET name= :name, email= :email WHERE id=:id";
+    public void updateCustomer(Integer id, String name, String email, String cpf, String address){
+        String sql = "UPDATE customers SET name= :name, email= :email, cpf= :cpf, address= :address WHERE id=:id";
         try(Connection con = mysql.open()) {
             con.createQuery(sql)
                     .addParameter("id", id)
                     .addParameter("name", name)
                     .addParameter("email", email)
+                    .addParameter("cpf", cpf)
+                    .addParameter("address", address)
                     .executeUpdate();
         }
     }

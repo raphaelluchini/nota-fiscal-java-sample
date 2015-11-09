@@ -37,6 +37,14 @@ public class OrderModel {
         }
     }
 
+    public Order getOrderProductsPriceTotal(){
+        String sql = "SELECT SUM(price) as price FROM order_products";
+        try(Connection con = mysql.open()) {
+            return con.createQuery(sql)
+                    .executeAndFetchFirst(Order.class);
+        }
+    }
+
     public Long createOrder(Integer customerId, Date date){
         String sql = "INSERT INTO orders(customer_id, date) VALUES (:customerId,:date)";
         try(Connection con = mysql.open()) {

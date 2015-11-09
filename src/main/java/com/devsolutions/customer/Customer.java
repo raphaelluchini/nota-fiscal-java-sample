@@ -6,11 +6,31 @@ public class Customer {
     private Integer id;
     private String name;
     private String email;
+    private String cpf;
+    private String address;
 
-    public Customer(Integer id, String name, String email) {
+    public Customer(Integer id, String name, String email, String cpf, String address) {
         this.id = id;
         this.name = name;
         this.email = email;
+        this.cpf = cpf;
+        this.address = address;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public Integer getId() {
