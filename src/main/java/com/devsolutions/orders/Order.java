@@ -8,7 +8,7 @@ public class Order {
     private Integer id;
     private String hash;
     private String customerName;
-    private Integer customer_id;
+    private Integer customers_id;
     private Integer products_in_order;
     private Integer order_total;
     private Date date;
@@ -47,11 +47,11 @@ public class Order {
     }
 
     public Integer getCustomer_id() {
-        return customer_id;
+        return customers_id;
     }
 
     public void setCustomer_id(Integer customer_id) {
-        this.customer_id = customer_id;
+        this.customers_id = customer_id;
     }
 
     public Integer getProducts_in_order() {

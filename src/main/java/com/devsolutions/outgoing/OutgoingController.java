@@ -21,7 +21,13 @@ public class OutgoingController {
             Map map = new HashMap();
             map.put("data", outgoingModel.getAllOutgoing());
             map.put("productTotal", orderModel.getOrderProductsPriceTotal().getPrice());
-            map.put("balanceTotal", orderModel.getOrderProductsPriceTotal().getPrice() - outgoingModel.getAllOutgoingPrice().getPrice() );
+            if(orderModel.getOrderProductsPriceTotal().getPrice() != null && outgoingModel.getAllOutgoingPrice().getPrice() != null){
+                map.put("balanceTotal", orderModel.getOrderProductsPriceTotal().getPrice() - outgoingModel.getAllOutgoingPrice().getPrice());
+            }else if(orderModel.getOrderProductsPriceTotal().getPrice() != null){
+                map.put("balanceTotal", orderModel.getOrderProductsPriceTotal().getPrice());
+            }else{
+                map.put("balanceTotal", outgoingModel.getAllOutgoingPrice().getPrice());
+            }
             map.put("delete", req.queryParams("delete"));
             map.put("create", req.queryParams("create"));
             return new ModelAndView(map, "outgoing/index.hbs");

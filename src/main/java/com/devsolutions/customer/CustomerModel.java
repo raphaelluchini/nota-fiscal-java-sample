@@ -57,21 +57,21 @@ public class CustomerModel {
     }
 
     public void deleteCustomer(Integer id){
-        String sql = "SELECT * FROM orders WHERE customer_id=:customer_id";
+        String sql = "SELECT * FROM orders WHERE customer_id=:customers_id";
 
-        String sql1 = "DELETE FROM order_products WHERE order_id=:order_id";
+        String sql1 = "DELETE FROM order_products WHERE orders_id=:orders_id";
 
         String sql2 = "DELETE FROM orders WHERE id=:id";
 
         String sql3 = "DELETE FROM customers WHERE id=:id";
         try(Connection con = mysql.open()) {
             Order order = con.createQuery(sql)
-                    .addParameter("customer_id", id)
+                    .addParameter("customers_id", id)
                     .executeAndFetchFirst(Order.class);
 
             if(order != null){
                 con.createQuery(sql1)
-                    .addParameter("order_id", order.getId())
+                    .addParameter("orders_id", order.getId())
                     .executeUpdate();
                 con.createQuery(sql2)
                         .addParameter("id",  order.getId())

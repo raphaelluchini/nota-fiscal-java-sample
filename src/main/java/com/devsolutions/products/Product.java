@@ -4,8 +4,8 @@ package com.devsolutions.products;
 //All properties used to CRUD an product
 public class Product {
     private Integer id;
-    private String order_id;
-    private String product_id;
+    private String orders_id;
+    private String products_id;
     private Integer quantity;
     private String name;
     private Integer price;
@@ -25,19 +25,19 @@ public class Product {
     }
 
     public String getOrder_id() {
-        return order_id;
+        return orders_id;
     }
 
     public void setOrder_id(String order_id) {
-        this.order_id = order_id;
+        this.orders_id = order_id;
     }
 
     public String getProduct_id() {
-        return product_id;
+        return products_id;
     }
 
     public void setProduct_id(String product_id) {
-        this.product_id = product_id;
+        this.products_id = product_id;
     }
 
     public Integer getQuantity() {

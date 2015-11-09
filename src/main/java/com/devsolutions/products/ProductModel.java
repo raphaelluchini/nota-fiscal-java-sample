@@ -58,7 +58,7 @@ public class ProductModel {
 
     public void addProductToOrder(Long orderId, Integer productId, Integer quantity, Integer price){
         String sql = "UPDATE products SET stock = stock - :quantity WHERE id=:productId";
-        String sql2 = "INSERT INTO order_products(order_id, product_id, quantity, price) VALUES (:orderId,:productId,:quantity,:price*:quantity)";
+        String sql2 = "INSERT INTO order_products(orders_id, products_id, quantity, price) VALUES (:orderId,:productId,:quantity,:price*:quantity)";
 
         try(Connection con = mysql.open()) {
             con.createQuery(sql)
@@ -77,7 +77,7 @@ public class ProductModel {
     }
 
     public List<Product> getProductsByOrderId(Integer id){
-        String sql = "SELECT p.id, op.quantity, p.name, p.price FROM order_products op JOIN products p ON op.product_id = p.id WHERE order_id=:id";
+        String sql = "SELECT p.id, op.quantity, p.name, p.price FROM order_products op JOIN products p ON op.products_id = p.id WHERE orders_id=:id";
 
         try(Connection con = mysql.open()) {
             return con.createQuery(sql)
@@ -87,7 +87,7 @@ public class ProductModel {
     }
 
     public void deleteProduct(Integer id){
-        String sql = "DELETE FROM order_products WHERE product_id=:id";
+        String sql = "DELETE FROM order_products WHERE products_id=:id";
         String sql2 = "DELETE FROM products WHERE id=:id";
         try(Connection con = mysql.open()) {
             con.createQuery(sql)

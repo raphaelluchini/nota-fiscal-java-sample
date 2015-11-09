@@ -21,15 +21,15 @@ public class OrderModel {
                 "c.name as customerName," +
                 "SUM(price) as order_total " +
                 "FROM orders o " +
-                "JOIN customers c ON  o.customer_id = c.id " +
-                "JOIN order_products op ON o.id = op.order_id GROUP BY o.id";
+                "JOIN customers c ON  o.customers_id = c.id " +
+                "JOIN order_products op ON o.id = op.orders_id GROUP BY o.id";
         try(Connection con = mysql.open()) {
             return con.createQuery(sql).executeAndFetch(Order.class);
         }
     }
 
     public Order getOrder(Integer id){
-        String sql = "SELECT o.id, o.customer_id, o.date, SUM(price) as order_total FROM orders o JOIN order_products op ON o.id = op.order_id WHERE o.id=:id GROUP BY o.id";
+        String sql = "SELECT o.id, o.customers_id, o.date, SUM(price) as order_total FROM orders o JOIN order_products op ON o.id = op.orders_id WHERE o.id=:id GROUP BY o.id";
         try(Connection con = mysql.open()) {
             return con.createQuery(sql)
                 .addParameter("id", id)
@@ -46,7 +46,7 @@ public class OrderModel {
     }
 
     public Long createOrder(Integer customerId, Date date){
-        String sql = "INSERT INTO orders(customer_id, date) VALUES (:customerId,:date)";
+        String sql = "INSERT INTO orders(customers_id, date) VALUES (:customerId,:date)";
         try(Connection con = mysql.open()) {
             return (Long) con.createQuery(sql)
                     .addParameter("customerId", customerId)
@@ -57,7 +57,7 @@ public class OrderModel {
     }
 
     public void deleteOrder(Integer id){
-        String sql = "DELETE FROM order_products WHERE order_id=:id";
+        String sql = "DELETE FROM order_products WHERE orders_id=:id";
         String sql2 = "DELETE FROM orders WHERE id=:id";
         try(Connection con = mysql.open()) {
             con.createQuery(sql)
