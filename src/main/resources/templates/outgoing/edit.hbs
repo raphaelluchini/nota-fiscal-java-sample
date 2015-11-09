@@ -4,12 +4,12 @@
     <form method="POST" action="/outgoing/{{data.id}}/edit">
         <div class="form-group">
             <label for="name">Nome:</label>
-            <input type="text" id="name" name="name" value="{{data.name}}" class="form-control">
+            <input type="text" id="name" name="name" value="{{data.name}}" class="form-control" required>
         </div>
 
         <div class="form-group">
             <label for="name">Preço:</label>
-            <input type="number" id="price" name="price" value="{{data.price}}" class="form-control">
+            <input type="number" id="price" name="price" value="{{data.price}}" class="form-control" required>
         </div>
 
         <div class="btn-group">

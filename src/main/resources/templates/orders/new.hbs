@@ -16,7 +16,7 @@
         <li>
             <div class="form-group">
                 <label for="product">Produto:</label>
-                <select name="product[0]" id="product">
+                <select name="product[0]" id="product" required>
                     {{#each products}}
                         <option value="{{id}}">{{name}}</option>
                     {{/each}}
@@ -24,7 +24,7 @@
             </div>
             <div class="form-group">
                 <label for="quantity">Quantidade:</label>
-                <select name="product[0][0]" id="quantity">
+                <select name="product[0][0]" id="quantity" required>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
